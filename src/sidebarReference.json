@@ -1,0 +1,21 @@
+{
+  "title": "Références",
+  "heading": true,
+  "path": "/reference",
+  "routes": [
+    {
+      "heading": true,
+      "path": "",
+      "routes": [
+        {
+          "hasSectionHeader": true,
+          "sectionHeader": "Aide-Mémoire"
+        },
+        {
+          "title": "JavaScript",
+          "path": "/reference/aide-memoire/javascript"
+        }
+      ]
+    }
+  ]
+}

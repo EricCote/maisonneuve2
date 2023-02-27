@@ -1,0 +1,76 @@
+{
+  "title": "React Académie",
+  "heading": true,
+  "path": "/plan",
+  "routes": [
+    {
+      "heading": true,
+      "path": "",
+      "routes": [
+        {
+          "hasSectionHeader": true,
+          "sectionHeader": "Logistique"
+        },
+        {
+          "title": "Installation",
+          "path": "/setup"
+        },
+        {
+          "title": "Plan de cours",
+          "path": "/plan"
+        },
+        {
+          "hasSectionHeader": true,
+          "sectionHeader": "Formations"
+        },
+        {
+          "title": "Formations",
+          "tags": [],
+          "path": "/formations",
+          "routes": [
+            {
+              "title": "Formation 1",
+              "path": "/formations/cours1"
+            },
+            {
+              "title": "Formation 2",
+              "path": "/formations/cours2"
+            },
+            {
+              "title": "Formation 3",
+              "path": "/formations/cours3"
+            },
+            {
+              "title": "Formation 4",
+              "path": "/formations/cours4"
+            },
+            {
+              "title": "Formation 5",
+              "path": "/formations/cours5"
+            },
+            {
+              "title": "Formation 6",
+              "path": "/formations/cours6"
+            },
+            {
+              "title": "Formation 7",
+              "path": "/formations/cours7"
+            },
+            {
+              "title": "Formation 8",
+              "path": "/formations/cours8"
+            },
+            {
+              "title": "Formation 9",
+              "path": "/formations/cours9"
+            },
+            {
+              "title": "Formation 10",
+              "path": "/formations/cours10"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
