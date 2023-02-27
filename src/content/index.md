@@ -6,7 +6,7 @@ permalink: index.html
 
 <HomepageHero />
 
-## What is this site? {/*what-is-this-site*/}
+## test {/*what-is-this-site*/}
 
 We are rewriting the React documentation with a few differences:
 
