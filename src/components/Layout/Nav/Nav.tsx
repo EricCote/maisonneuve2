@@ -97,7 +97,7 @@ export default function Nav({
 }: {
   routeTree: RouteItem;
   breadcrumbs: RouteItem[];
-  section: 'learn' | 'reference' | 'home';
+  section: 'formation' | 'learn' | 'reference' | 'home';
 }) {
   const [isOpen, setIsOpen] = useState(false);
   const [showFeedback, setShowFeedback] = useState(false);
