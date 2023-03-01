@@ -1486,9 +1486,104 @@ Après la génération du rendu et la modification du commit vers le DOM, le nav
 
 ## Modifier l'état déclenche un rendu
 
-...
+Dans d'autres systèmes, on considère que la modification d'une interface usager est le résultat d'un événement, tel que le clic d'un bouton.
+
+Dans React, c'est différent. Il faut **modifier l'état** pour que l'interface usager soit affectée. 
+
+Dans l'exemple suivant, quand on presse "send", le `setIsSent(true)` génère un re-rendu. 
+
+<Sandpack>
+
+```js
+import { useState } from 'react';
+
+export default function Form() {
+  const [isSent, setIsSent] = useState(false);
+  const [message, setMessage] = useState('Hi!');
+  if (isSent) {
+    return <h1>Your message is on its way!</h1>
+  }
+  return (
+    <form onSubmit={(e) => {
+      e.preventDefault();
+      setIsSent(true);
+      sendMessage(message);
+    }}>
+      <textarea
+        placeholder="Message"
+        value={message}
+        onChange={e => setMessage(e.target.value)}
+      />
+      <button type="submit">Send</button>
+    </form>
+  );
+}
+
+function sendMessage(message) {
+  // ...
+}
+```
+
+```css
+label, textarea { margin-bottom: 10px; display: block; }
+```
+
+</Sandpack>
+
+Quand on clique le bouton 
+
+1. Le gestionnaire d'événements `onSubmit` exécute.
+2. `setIsSent(true)` modifie `isSent` à `true` place le rendu dans la file.
+3. React génère le re-rendu en utilisant la nouvelle valeur de `isSent`.
 
 ---
+
+## Défi 4
+
+Voici un feu de circulation pour piétons.
+
+Ajoutez une `alert` au gestionnaire du clic. Quand la lumière est verte et dit ¨Walk¨, cliquer le bouton devrait afficher "Stop is next".  Quand la lumière est rouge et dit "Stop", cliquer le bouton devrait afficher "Walk is next". 
+
+Est-ce que ça fait une différence lorsqu'on met l'alerte avant ou après l'appel `setWalk`?
+
+<Sandpack>
+
+```js
+import { useState } from 'react';
+
+export default function TrafficLight() {
+  const [walk, setWalk] = useState(true);
+
+  function handleClick() {
+    setWalk(!walk);
+  }
+
+  return (
+    <>
+      <button onClick={handleClick}>
+        Change to {walk ? 'Stop' : 'Walk'}
+      </button>
+      <h1 style={{
+        color: walk ? 'darkgreen' : 'darkred'
+      }}>
+        {walk ? 'Walk' : 'Stop'}
+      </h1>
+    </>
+  );
+}
+```
+
+```css
+h1 { margin-top: 20px; }
+```
+
+</Sandpack>
+
+
+---
+
+
+
 
 ## Devoir 4
 
@@ -1512,4 +1607,4 @@ On veut le bouton affiché 3 fois, avec des props correctement configurés.
 **Extra 2:** Ajouter un composant nommé "Boite", qui affiche un `<input>` avec le nombre.  Il faudra gérer correctment le gestionnaire d'événement `onChange` pour lire le contenu du input (e.target.value).  Il faudra convertir ce contenu vers un nombre pour modifier correctement l'état. (indice: utiliser parseInt ou (+) unaire.)  
 
 
-Bonne chance!x
+Bonne chance!
