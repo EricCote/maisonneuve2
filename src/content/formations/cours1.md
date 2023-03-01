@@ -1,3 +1,306 @@
 ---
-title: Formation 1
+title: 'Formation 1'
+date: '2023-02-15'
 ---
+
+## Présentations
+
+- Nom
+- Travail (compagnie, poste, type de travail)
+- Expérience en technologie
+- Type de PC (Mac, Windows, Linux)
+- Langages de programmation (JavaScript? Python? autre?)
+- Expérience Web (Débutant? Avancé?)
+- Expérience avec une technologie SPA (Aucune? React? Angular? Vue? Svelte?)
+- Expérience à batir un service Backend (ASP.NET Web API? Azure Functions? Python Flask? AWS Lambda? Autre?)
+- Attentes pour la formation (Que désirez-vous bâtir?)
+
+---
+
+## Qu'est-ce que React?
+
+- "Une bibliothèque JavaScript pour créer des interfaces utilisateurs"
+- Modèle déclaratif où les vues sont décrites en JSX
+- Découpage en composants réutilisables
+- Permet le développement de SPA (Single Page Apps)
+- Nécessite de convertir le JSX en JavaScript
+- Il faut donc utiliser une _boîte à outil_ ou un _Framework_
+
+---
+
+## Historique de React
+
+- Créé en 2011 par Jordan Walke chez Faceboook
+  - Utilisé en 2012 pour réécrire Instagram.
+- 2013: React devient Open Source
+- 2015: React-Native permet de développer des apps mobiles
+- 2017: Sortie majeure de React 16
+- 2020: Sortie majeure de React 17
+- 2022: Sortie majeure de React 18 (permet le "concurrent mode")
+
+---
+
+## React vient en différentes saveurs
+
+- Plusieurs versions de rendu
+  - React DOM génère du HTML (Le plus populaire)
+  - React PDF génère des documents PDF
+  - React Docx génère des documents Word
+  - React Native génère des applications mobiles et tablettes (Android et iOS)
+  - React TV génère des application télés
+  - React VR génère des interfaces pour réalité virtuelle
+  - React Unity génère des scènes 3D
+
+https://github.com/chentsulin/awesome-react-renderer
+
+---
+
+## Bons points de React
+
+- **Rétro-compatible** les nouvelles versions évitent de briser le code existant.
+- **Populaire** utilisé par une grande majorité d'applications. Facile de trouver de l'aide.
+- **Sans opinion** React se fout du routage, du chargement de données, des styles, etc.
+- **SSR** Compatible avec le Server-Side Rendering
+- **SSG** Compatible avec le Static-Site Generation
+
+---
+
+## Mauvais points de React
+
+- **Facile de faire du mauvais code** Il est facile de faire du code spaghetti en React
+- **Certaines composantes ne sont pas compatibles antérieures ou postérieures** Il faut alors se mettre à jour
+- **Il faut se faire des opinions** Il faut choisir un biblothèque de routage, une autre de chargement, une autre pour le caching, une autre pour les syles... C'est fatiguant!
+- **Pas de conventions** Chaque application React a sa propre approche pour résoudre les problèmes
+
+---
+
+## Boîte à outils de React
+
+- Il existe de nombreux outils pour générer une application React
+- À une certaine époque, on devait générer l'outillage nous-même:
+  - Gestionnaire de paquets/Package Manager (npm, yarn, pnpm)
+  - Compilateur (Babel, Typescript, swc)
+  - Bundler (WebPack, Parcel, esbuild, swc)
+  - Minifieur (terser, swc)
+  - Serveur Web (express)
+  - Linter pour valider (ESLint)
+  - Environnement de tests (Jest, Cypress)
+  - MonoRepo (Nx, Turborepo)
+
+## Boites à outils clé en main
+
+- Aujourd'hui, on peut prendre des outils simples, ou des Framework évolués:
+  - Create-React-App
+  - Vite
+  - Gatsby
+  - Next js
+  - Remix
+  - T3
+
+---
+
+## Environnement VS Code
+
+- Voici les extensions utiles:
+
+  - **ESLint** (dbaeumer.vscode-eslint): valide le code et les règles
+  - **Prettier** (esbenp.prettier-vscode): formatte le code
+  - **Simple React Snippets** (burkeholland.simple-react-snippets): insère des snippets de code
+    - Snippets utiles:
+      - **imr, imrs, imrse:** import React, \{useState, useEffect\}
+      - **ffc, sfc:** Créer composants react
+      - **uef, usf:** useEffect, useState
+
+---
+
+## Configurations VS Code (1/2)
+
+- Configurations utiles
+- Utilisez `cmd-,` (commande-virgule) pour aller en mode 'settings'
+
+  - **Editor:** Tab Size: 2 ou 4
+  - **Editor:** Default Formatter: Prettier - `esbenp.prettier-vscode`
+  - **Editor:** Format On Save: true
+  - **Prettier:** Jsx Single Quote: true
+  - **Prettier:** Single Quote: true
+  - **Emmet:** Include Language: `"javascript": "javascriptreact"`
+
+---
+
+## Configurations VS Code (2/2)
+
+- **MacOS seulement:** ajoutez Code dans le "path" du terminal et des lignes de commandes
+
+  - il faut aller dans la commande d'édition
+
+```
+Shift-Command-P
+Shell Command: Install 'code' command in PATH
+```
+
+- Quittez code et fermez toutes fenêtres de terminal
+  - Les prochaines fenêtres de terminal auront le "path" bien configuré
+
+---
+
+## Nouveau projet Vite
+
+Pour créer un nouveau dossier qui contient un nouveau projet nommé _monweb_:
+
+```bash
+> npm create vite@latest monweb -- --template react-swc
+```
+
+Alternative: On pourrait démarrer **vite** en mode interactif, avec une série de questions:
+
+```bash
+> npm create vite@latest
+```
+
+On se déplace vers le nouveau dossier et on peut ouvrir code dans le dossier courant (Le point (.) représente le dossier courant)
+
+```bash
+> cd monweb
+> code .
+```
+
+---
+
+## Anatomie du projet vite:
+
+**Fichiers:**
+
+- **index.html** : Page d'accueil en html, vide
+- **vite.config.js** : configurations pour vite
+- **package.json** : configurations pour npm
+- **package-lock.json** : référence npm des dépendances et sous-dépendances avec versions. **Ne pas toucher.** Utilisez _npm_ pour mettre à jour.
+
+**Dossiers:**
+
+- **node_modules** : contient les dépendances et sous-dépendances. **Ne pas toucher.** Utilisez `npm install` ou `npm update` pour rafraîchir.
+- **src**: contient les fichiers .js, .css et .svg qui sont compilés par Vite.
+- **public**: contient les fichiers qui sont inclus sans être modifiés par Vite. (png, pdf, etc)
+
+---
+
+## Démarrer le projet en mode dev
+
+Les commandes suivantes doivent être lancées à la racine du projet. (La racine du projet, c'est où se trouve le fichier `package.json`)
+
+Si ce n'est pas déjà fait, installez de les dépendances du projet:
+
+```bash
+npm install
+```
+
+Lancez le projet en mode dev:
+
+```bash
+npm run dev
+```
+
+Ceci démarre un serveur web en mode dev. Lancez votre navigateur vers l'url suivant: http://localhost:5173
+
+---
+
+## Fast Refresh (Hot Module Reload, HMR)
+
+- Modifiez `src/app.jsx` et sauvegardez,
+  - Vous verrez la mise-à-jour se faire automatiquement dans le navigateur, sans avoir besoin de cliquer sur _rafraîchir_.
+- Cela s'appelle _Fast Refresh_ (ainsi que _Hot Reload_)
+- Parfois, le _Fast Refresh_ échoue et il faut rafraîchir le navigateur manuellement en cliquant sur `refresh`
+- _Fast Refresh_ n'est disponible qu'avec le mode dev.
+
+---
+
+## JSX
+
+- JSX : _JavaScript eXtension_
+- Le JSX ressemble beaucoup à du HTML
+- JSX est bien plus strict
+- Utilisez le convertisseur suivant:
+  https://transform.tools/html-to-jsx
+
+---
+
+## JSX dans les coulises
+
+JSX est écrit par un programmeur:
+
+```js
+<h3 title='alarme'>L'alarme sonne à {alarmTime}</h3>
+```
+
+JSX est compilé par Babel (ou swc, etc):
+
+```js
+React.createElement('h3', { title: 'alarme' }, "L'alarme sonne à ", alarmTime);
+```
+
+Après exécution, cela génère un **élément React** (un simple objet JS):
+
+```js
+{
+  type: 'h3',
+  props: {
+    title: 'alarme',
+    children: ["L'alarme sonne à ", alarmTime],
+  },
+  key: null,
+  ref: null,
+  $$typeof: Symbol.for('react.element'),
+};
+```
+
+L'ensemble des éléments React génère une arborescence nommée **Virtual DOM**.
+
+---
+
+## Compiler le projet
+
+Les navigateurs ne peuvent pas utiliser de JSX, il faut donc compiler (transpiler) le JSX vers JS.
+
+On utilise la commande suivante:
+
+```bash
+npm run build
+```
+
+Il y a un nouveau dossier nommé "dist". C'est ce petit dossier qu'il faut distribuer.
+
+Pour démarrer un serveur web pour tester le contenu de `dist`:
+
+```bash
+npm run preview
+```
+
+On peut alors naviguer vers http://localhost:4173
+
+---
+
+## Déployer le projet
+
+Il suffit d'utiliser n'importe quel hébergeur web statique et de copier le contenu du dossier `dist`.
+
+Si vous ne savez pas quel hébergeur utiliser, nous recommandons Netlify (gratuit).
+
+---
+
+---
+
+---
+
+## Devoir #1
+
+- Créer une nouvelle application React
+- Consultez la documentation de Vite pour créer une application React avec SWC
+- Modifiez le contenu du JSX généré dans app.js. Faites une page simple de bienvenue avec votre nom complet.
+- Utilisez https://transform.tools/html-to-jsx pour convertir votre html
+- Testez votre application avec la commande `npm run dev`
+- Naviguez vers: `http://localhost:5173`
+- Créez votre application "finale" avec la commande `npm run build`
+- Ceci va créer un nouveau dossier `dist`
+- Validez votre application "finale" avec la commande `npm run preview`
+- Naviguez vers: `http://localhost:4173`
+- Déployez le dossier `dist` vers un hébergeur de site web statique et partagez à vos amis.
+- Si vous n'avez pas d'hébergeur, nous vous recommandons Netlify (gratuit).
