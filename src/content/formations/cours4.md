@@ -141,7 +141,7 @@ button {
 `handleClick` modifie une variable locale, `index`. Mais il y a deux problèmes:
 
 1. **Une variable locale ne persiste pas entre les rendus.** Chaque fois qu'on fait un nouveau rendu, toutes les variables locales sont recréées.
-2. **Modifier une variable locale ne génèere pas de rendu .** React ne réalise pas qu'il faut générer un nouveau rendu.
+2. **Modifier une variable locale ne génère pas de rendu .** React ne réalise pas qu'il faut générer un nouveau rendu.
 
 ## Solution fournie par React
 
@@ -1388,7 +1388,7 @@ img { margin: 0 10px 10px 0; }
 </Sandpack>
 
 * **Pendant le rendu initial** React devra [créer des noeuds (node) du DOM](https://developer.mozilla.org/docs/Web/API/Document/createElement) pour `<section>`, `<h1>`, et trois balises `<img>`. 
-* **Pendant le re-rendu,** React déterminera quelles propriétés ont changé, si c'est le cas.  C'est ce que l'on appellait la "comparaison du **DOM Virtuel**". La nouvelle documentation ne discute plus du DOM virtuel.
+* **Pendant le re-rendu,** React déterminera quelles propriétés ont changé, si c'est le cas.  (C'est ce que l'on appellait la "comparaison du **DOM Virtuel**". La nouvelle documentation ne discute plus du DOM virtuel.)
 
 <Pitfall>
 
@@ -1422,7 +1422,7 @@ Après le rendu (l'appel) des composants, React modifie le DOM.
 * **Pour le rendu initial** React appelle [`appendChild()`](https://developer.mozilla.org/docs/Web/API/Node/appendChild) pour ajouter les noeuds DOM. 
 * **Pour les rendus suivants** React applique les modifications minimales (comparées pendant le rendu) pour que le DOM corresponde au dernier rendu généré. 
 
-**React modifie le DOM que pour les éléments modifiés** Par exemple, dans l'exemple suivant, le composant génèere un re-rendu avec de nouvelles props à chaque seconde. On peut ajouter du texte au `<input>`, modifier la `value`, et le texte ne disparait pas au moment du re-rendu:
+**React modifie le DOM que pour les éléments modifiés** Par exemple, dans l'exemple suivant, le composant génère un re-rendu avec de nouvelles props à chaque seconde. On peut ajouter du texte au `<input>`, modifier la `value`, et le texte ne disparait pas au moment du re-rendu:
 
 <Sandpack>
 
