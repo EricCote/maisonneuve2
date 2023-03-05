@@ -397,9 +397,9 @@ const [index, setIndex] = useState(0);
 
 Un composant peut avoir de multiples variables d'états.  
 
-L'exemple suivant possède deux variables d'état: un nombre `index` et un booléen `showMore`.
+L'exemple suivant possède deux variables d'état: un nombre `index` et un booléen `showMore` qui bascule quand on clique "Afficher Détails" .
 
-You can have as many state variables of as many types as you like in one component. This component has two state variables, a number `index` and a boolean `showMore` that's toggled when you click "Show details":
+You can have as many state variables of as many types as you like in one component. This component has two state variables, a number `index` and a boolean `showMore` that's toggled when you click "Afficher Détails":
 
 <Sandpack>
 
@@ -422,16 +422,16 @@ export default function Gallery() {
   let sculpture = sculptureList[index];
   return (
     <>
-      <button onClick={handleNextClick}>Next</button>
+      <button onClick={handleNextClick}>Suivant</button>
       <h2>
         <i>{sculpture.name} </i>
-        by {sculpture.artist}
+        par {sculpture.artist}
       </h2>
       <h3>
-        ({index + 1} of {sculptureList.length})
+        ({index + 1} de {sculptureList.length})
       </h3>
       <button onClick={handleMoreClick}>
-        {showMore ? 'Hide' : 'Show'} details
+        {showMore ? 'Cacher' : 'Afficher'} détails
       </button>
       {showMore && <p>{sculpture.description}</p>}
       <img src={sculpture.url} alt={sculpture.alt} />
@@ -1478,8 +1478,8 @@ Après la génération du rendu et la modification du commit vers le DOM, le nav
   1. Déclencheur (Trigger) 
   2. Rendu (Render)
   3. Écriture du DOM (Commit)
-* You can use Strict Mode to find mistakes in your components
-* React does not touch the DOM if the rendering result is the same as last time
+* Utilisez "StrictMode" pour trouver les erreurs 
+* React ne touche pas au DOM si le rendu est le même que la fois précédente
 
 
 ---
@@ -1490,7 +1490,7 @@ Dans d'autres systèmes, on considère que la modification d'une interface usage
 
 Dans React, c'est différent. Il faut **modifier l'état** pour que l'interface usager soit affectée. 
 
-Dans l'exemple suivant, quand on presse "send", le `setIsSent(true)` génère un re-rendu. 
+Dans l'exemple suivant, quand on presse "send", le `setIsSent(true)` modifie l'état et génère un re-rendu. 
 
 <Sandpack>
 
@@ -1499,9 +1499,9 @@ import { useState } from 'react';
 
 export default function Form() {
   const [isSent, setIsSent] = useState(false);
-  const [message, setMessage] = useState('Hi!');
+  const [message, setMessage] = useState('Bonjour!');
   if (isSent) {
-    return <h1>Your message is on its way!</h1>
+    return <h1>Votre message est envoyé</h1>
   }
   return (
     <form onSubmit={(e) => {
@@ -1514,7 +1514,7 @@ export default function Form() {
         value={message}
         onChange={e => setMessage(e.target.value)}
       />
-      <button type="submit">Send</button>
+      <button type="submit">Envoyer</button>
     </form>
   );
 }
@@ -1537,6 +1537,284 @@ Quand on clique le bouton
 3. React génère le re-rendu en utilisant la nouvelle valeur de `isSent`.
 
 ---
+
+
+## Rendu génère un Snapshot dans le temps
+
+Générer un "rendu" signifie que React appelle votre Composant, la fonction de votre composant. Le JSX retourné est comme une photo instantanée (un snapshot) de l'interface usager, à ce moment précis dans le temps. Les props, gestionnnaires d'événements et variables locales ont été générées **à partir de l'état au moment du rendu.**
+
+Ce snapshot du UI inclut de la logique comme des gesionnaires d'événements qui spécifient ce qui ce passe quand un usager interagit. React modifie l'écran pour synchroniser ce qui est affiché et ce qui a été généré (incluant la connection à des event handlers.)  
+
+Quand React fait un re-rendu d'un composant:
+
+1. React appelle votre fonction.
+2. Cette fonction retourne un snapshot JSX.
+3. React modifie l'écran pour synchroniser avec le snapshot.
+
+Contrairement aux variables locales qui disparaissent quand la fonction est complétée (quand le JSX est retourné), l'état est conservé entre les appels. L'état est conservé par React, à l'extérieur de la fonction. Quand React appelle votre composant, il vous donne accès au snapshot de l'état pour ce rendu particulier. Votre composant retourne un snapshot du UI avec de nouveaux props et gestionnaires d'événements, générées à partir des valeurs d'états de ce rendu.
+
+Voici une expérience pour démontrer ce fonctionnement.  Dans cet exemple, on pourrait s'attendre à ce que cliquer le  bouton +3 incrémente de le compteu 3 fois car il appelle `setNumber(number + 1)` trois fois.
+
+Mais ce n'est pas le cas.
+
+<Sandpack>
+
+```js
+import {useState} from 'react';
+
+export default function Counter() {
+  const [number, setNumber] = useState(0);
+
+  return (
+    <>
+      <h1>{number}</h1>
+      <button
+        onClick={() => {
+          setNumber(number + 1);
+          setNumber(number + 1);
+          setNumber(number + 1);
+        }}>
+        +3
+      </button>
+    </>
+  );
+}
+```
+
+```css
+button {
+  display: inline-block;
+  margin: 10px;
+  font-size: 20px;
+}
+h1 {
+  display: inline-block;
+  margin: 10px;
+  width: 30px;
+  text-align: center;
+}
+```
+
+</Sandpack>
+
+On incrémente une seule fois. 
+
+**Modifier le state affecte le prochain rendu.** Pendant le premier rendu, `number` était `0`. C'est pourquoi, le gestionnaire d'événement `onClick` considère que la valeur de `number` demeure `0` même après l'appel à `setNumber(number + 1):
+
+```js
+<button
+  onClick={() => {
+    setNumber(number + 1);
+    setNumber(number + 1);
+    setNumber(number + 1);
+  }}>
+  +3
+</button>
+```
+
+Voici ce qui est exécuté
+
+1. `setNumber(number + 1)`: `number` est `0` donc `setNumber(0 + 1)`.
+   - React se prépare à modifier `number` à `1` au prochain rendu.
+2. `setNumber(number + 1)`: `number` est `0` donc `setNumber(0 + 1)`.
+   - React se prépare à modifier `number` à `1` au prochain rendu.
+3. `setNumber(number + 1)`: `number` est `0` donc `setNumber(0 + 1)`.
+   - React se prépare à modifier `number` à `1` au prochain rendu.
+
+Même en appelant `setNumber(number + 1)` trois fois, dans le gestionnaire d'événements de  _ce rendu_, le `number` est toujours `0`, et on modifie la valeur vers `1` trois fois. C'est pour cela que le résultat affiche `1` plutôt que `3`.
+
+Une autre façon de visualiser, c'est de substituer les états avec leur valeur dans votre code. 
+
+```js
+<button
+  onClick={() => {
+    setNumber(0 + 1);
+    setNumber(0 + 1);
+    setNumber(0 + 1);
+  }}>
+  +3
+</button>
+```
+
+Au prochain rendu, `number` sera `1`, Donc pour _ce rendu_ le gesstionnaire d'événemetn sera
+
+```js
+<button
+  onClick={() => {
+    setNumber(1 + 1);
+    setNumber(1 + 1);
+    setNumber(1 + 1);
+  }}>
+  +3
+</button>
+```
+
+C'est pourquoi que la prograssion sera `2`, `3`, `4` et ainsi de suite.
+
+##  L'état à travers le temps
+
+Quel sera le résultat de cette alerte?
+
+<Sandpack>
+
+```js
+import {useState} from 'react';
+
+export default function Counter() {
+  const [number, setNumber] = useState(0);
+
+  return (
+    <>
+      <h1>{number}</h1>
+      <button
+        onClick={() => {
+          setNumber(number + 5);
+          alert(number);
+        }}>
+        +5
+      </button>
+    </>
+  );
+}
+```
+
+```css
+button {
+  display: inline-block;
+  margin: 10px;
+  font-size: 20px;
+}
+h1 {
+  display: inline-block;
+  margin: 10px;
+  width: 30px;
+  text-align: center;
+}
+```
+
+</Sandpack>
+
+Si vous substituez, vous pouvez deviner que ce sera zéro.
+
+```js
+setNumber(0 + 5);
+alert(0);
+```
+
+Et si on met un minuteur sur cette alerte, pour qu'elle soit lancée seulement après que le re-rendu soit complété?  Ce serait "0" ou "5"? Devinez!
+
+<Sandpack>
+
+```js
+import {useState} from 'react';
+
+export default function Counter() {
+  const [number, setNumber] = useState(0);
+
+  return (
+    <>
+      <h1>{number}</h1>
+      <button
+        onClick={() => {
+          setNumber(number + 5);
+          setTimeout(() => {
+            alert(number);
+          }, 3000);
+        }}>
+        +5
+      </button>
+    </>
+  );
+}
+```
+
+```css
+button {
+  display: inline-block;
+  margin: 10px;
+  font-size: 20px;
+}
+h1 {
+  display: inline-block;
+  margin: 10px;
+  width: 30px;
+  text-align: center;
+}
+```
+
+</Sandpack>
+
+Si vous utilisez la méthode de substitution, on voit clairement l'état passé à l'alerte.
+
+```js
+setNumber(0 + 5);
+setTimeout(() => {
+  alert(0);
+}, 3000);
+```
+
+L'état stocké dans React est changé au moment où l'alerte éxécute, mais il a été planifié au moment où la valeur n'avait pas changé. C'est le moment du snapshot.  
+
+**Une variable d'état n'est jamais modifiée pendant un rendu**, même si le code est asynchrone (comme un minuteur ou un timer). Dans le `ònClick` de _ce rendu_, la valeur `number`continue d'être `0` même après que  `setNumber(number + 5)` ne soit appelé. Sa valeur s'est fixée quand React a "pris son snapshot" de l'IU.
+
+Ceci permet au code d'être moins fragile aux erreurs de synchonisation et de timing.  Voici un fomulaire qui envoie un message avec un délai de 5 secondes. Imaginez le scénario:
+
+1. On clique sur "Envoyer" pour dire "Bonjour" à Alice
+2. Avant le délai de 5 secondes, on change la valeur du "destinataire" pour "Bob"
+
+Que devrait afficher `alert`?  "Vous dites Bonjour à Alice" ou "Vous dites Bonjour à Bob"? Faites une prédiction:
+
+<Sandpack>
+
+```js
+import {useState} from 'react';
+
+export default function Form() {
+  const [to, setTo] = useState('Alice');
+  const [message, setMessage] = useState('Bonjour');
+
+  function handleSubmit(e) {
+    e.preventDefault();
+    setTimeout(() => {
+      alert(`Vous dites ${message} à ${to}`);
+    }, 5000);
+  }
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <label>
+        Destinataire:{' '}
+        <select value={to} onChange={(e) => setTo(e.target.value)}>
+          <option value="Alice">Alice</option>
+          <option value="Bob">Bob</option>
+        </select>
+      </label>
+      <textarea
+        placeholder="Message"
+        value={message}
+        onChange={(e) => setMessage(e.target.value)}
+      />
+      <button type="submit">Envoyer</button>
+    </form>
+  );
+}
+```
+
+```css
+label,
+textarea {
+  margin-bottom: 10px;
+  display: block;
+}
+```
+
+</Sandpack>
+
+**React conserve les valeurs d'états "fixées" dans les gestionnaires d'événements de _ce rendu_.** Ne vous inquiétez pas d'un changement d'état pendant l'exécution de votre code.
+
+Que faire si on doit lire le dernier état avant un re-render? on pourrait utiliser une fonction de modification d'état. On verra cela bientôt.
+
+
 
 ## Défi 4
 
