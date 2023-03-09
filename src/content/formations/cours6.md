@@ -4,7 +4,7 @@ date: '2023-03-04'
 slug: 'cours6'
 ---
 
-## Contenu du cours
+## Contenu du cours 6
 
 ### pour React
 - Afficher des détails additionnels lorsqu'on clique un élément du cours
@@ -26,7 +26,7 @@ slug: 'cours6'
   - Nous y reviendrons au prochain cours.  
 
 
-## devoir 6
+## Devoir 6
 
 - Prendre le projet courant
 - Si vous n'avez plus le projet voici les étapes pour le restaurer:
